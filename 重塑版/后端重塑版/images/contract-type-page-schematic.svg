@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="system-ui, -apple-system, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <style>
+      .card { fill:#ffffff; stroke:#e4e7ed; stroke-width:1; }
+      .text { fill:#303133; font-size:13px; }
+      .muted { fill:#909399; font-size:12px; }
+      .th { fill:#606266; font-size:12px; font-weight:600; }
+      .td { fill:#606266; font-size:12px; }
+      .sidebar-text { fill:#bfcbd9; font-size:13px; }
+      .sidebar-active { fill:#ffffff; font-size:13px; font-weight:600; }
+      .btn-text { fill:#ffffff; font-size:12px; }
+      .btn-default-text { fill:#606266; font-size:12px; }
+      .tree { fill:#606266; font-size:12px; }
+      .tree-active { fill:#409eff; font-size:12px; font-weight:600; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="700" rx="10" fill="#ffffff" stroke="#dcdfe6"/>
+  <rect x="0" y="0" width="1200" height="52" fill="#ffffff"/>
+  <line x1="0" y1="52" x2="1200" y2="52" stroke="#e4e7ed"/>
+  <circle cx="28" cy="26" r="11" fill="#409eff"/>
+  <text x="28" y="30" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">肇</text>
+  <text x="48" y="31" class="text" font-weight="600">肇新合同管理系统</text>
+  <text x="1100" y="31" class="muted">管理员</text>
+  <circle cx="1156" cy="26" r="13" fill="#e4e7ed"/>
+  <text x="1156" y="31" text-anchor="middle" class="muted">A</text>
+
+  <rect x="0" y="52" width="190" height="648" fill="#304156"/>
+  <text x="18" y="80" fill="#8797a6" font-size="11">合同基础配置</text>
+  <text x="22" y="112" class="sidebar-text">签约主体</text>
+  <text x="22" y="148" class="sidebar-text">合作方管理</text>
+  <text x="22" y="184" class="sidebar-text">编号规则</text>
+  <rect x="8" y="196" width="174" height="30" rx="4" fill="#263445"/>
+  <rect x="8" y="196" width="4" height="30" fill="#409eff"/>
+  <text x="22" y="216" class="sidebar-active">合同类型</text>
+  <text x="22" y="254" class="sidebar-text">合同管理</text>
+  <text x="22" y="290" class="sidebar-text">模板管理</text>
+
+  <rect x="190" y="52" width="1010" height="648" fill="#f5f7fa"/>
+  <text x="214" y="82" class="muted">合同基础配置 / 合同类型</text>
+
+  <!-- 左树 -->
+  <rect x="210" y="96" width="300" height="530" rx="6" class="card"/>
+  <text x="228" y="122" class="text" font-weight="600">合同类型树</text>
+  <line x1="210" y1="136" x2="510" y2="136" stroke="#ebeef5"/>
+
+  <text x="228" y="166" class="tree">▾ 采购合同</text>
+  <rect x="244" y="176" width="248" height="26" rx="4" fill="#ecf5ff"/>
+  <text x="256" y="194" class="tree-active">货物采购合同</text>
+  <text x="256" y="222" class="tree">服务采购合同</text>
+  <text x="228" y="254" class="tree">▾ 销售合同</text>
+  <text x="256" y="282" class="tree">产品销售合同</text>
+  <text x="256" y="310" class="tree">服务销售合同</text>
+  <text x="228" y="342" class="tree">▸ 租赁合同</text>
+  <text x="228" y="374" class="tree">▸ 其他合同</text>
+
+  <rect x="226" y="560" width="76" height="28" rx="4" fill="#409eff"/>
+  <text x="264" y="579" text-anchor="middle" class="btn-text">新增子类</text>
+  <rect x="312" y="560" width="66" height="28" rx="4" fill="#fff" stroke="#dcdfe6"/>
+  <text x="345" y="579" text-anchor="middle" class="btn-default-text">删除</text>
+
+  <!-- 右侧表单 -->
+  <rect x="530" y="96" width="646" height="530" rx="6" class="card"/>
+  <text x="550" y="122" class="text" font-weight="600">类型属性：货物采购合同</text>
+  <line x1="530" y1="136" x2="1176" y2="136" stroke="#ebeef5"/>
+
+  <text x="550" y="170" class="muted">类型名称</text>
+  <rect x="550" y="180" width="300" height="30" rx="4" fill="#fff" stroke="#dcdfe6"/>
+  <text x="560" y="200" class="td">货物采购合同</text>
+
+  <text x="880" y="170" class="muted">类型编码</text>
+  <rect x="880" y="180" width="260" height="30" rx="4" fill="#fff" stroke="#dcdfe6"/>
+  <text x="890" y="200" class="td">CG_HW</text>
+
+  <text x="550" y="238" class="muted">上级类型</text>
+  <rect x="550" y="248" width="300" height="30" rx="4" fill="#fff" stroke="#dcdfe6"/>
+  <text x="560" y="268" class="td">采购合同</text>
+
+  <text x="880" y="238" class="muted">排序</text>
+  <rect x="880" y="248" width="120" height="30" rx="4" fill="#fff" stroke="#dcdfe6"/>
+  <text x="890" y="268" class="td">1</text>
+
+  <text x="550" y="306" class="muted">状态</text>
+  <rect x="550" y="316" width="36" height="16" rx="8" fill="#67c23a"/>
+  <circle cx="577" cy="324" r="6" fill="#fff"/>
+  <text x="596" y="329" class="td">启用</text>
+
+  <text x="550" y="372" class="muted">备注</text>
+  <rect x="550" y="382" width="590" height="70" rx="4" fill="#fff" stroke="#dcdfe6"/>
+  <text x="560" y="404" class="muted">用于货物类采购合同，审批流走「采购审批」</text>
+
+  <rect x="550" y="490" width="76" height="30" rx="4" fill="#409eff"/>
+  <text x="588" y="510" text-anchor="middle" class="btn-text">保存</text>
+  <rect x="636" y="490" width="76" height="30" rx="4" fill="#fff" stroke="#dcdfe6"/>
+  <text x="674" y="510" text-anchor="middle" class="btn-default-text">取消</text>
+
+  <!-- 说明 -->
+  <rect x="210" y="646" width="966" height="44" rx="6" fill="#fff" stroke="#e4e7ed"/>
+  <text x="226" y="672" class="muted">一张自关联表 form(id, parent_id, name, code, ...)：左边树是 parent_id 递归，右边是选中节点的属性。</text>
+</svg>

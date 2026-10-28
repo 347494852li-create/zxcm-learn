@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" font-family="system-ui, -apple-system, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <style>
+      .card { fill:#ffffff; stroke:#e4e7ed; stroke-width:1; }
+      .text { fill:#303133; font-size:13px; }
+      .muted { fill:#909399; font-size:12px; }
+      .th { fill:#606266; font-size:12px; font-weight:600; }
+      .td { fill:#606266; font-size:12px; }
+      .sidebar-text { fill:#bfcbd9; font-size:13px; }
+      .sidebar-active { fill:#ffffff; font-size:13px; font-weight:600; }
+      .btn-text { fill:#ffffff; font-size:12px; }
+      .btn-default-text { fill:#606266; font-size:12px; }
+      .chip { fill:#ecf5ff; stroke:#b3d8ff; }
+      .chip-text { fill:#409eff; font-size:12px; }
+      .dash { stroke:#409eff; stroke-width:1.4; stroke-dasharray:6 4; fill:none; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="720" rx="10" fill="#ffffff" stroke="#dcdfe6"/>
+  <rect x="0" y="0" width="1200" height="52" fill="#ffffff"/>
+  <line x1="0" y1="52" x2="1200" y2="52" stroke="#e4e7ed"/>
+  <circle cx="28" cy="26" r="11" fill="#409eff"/>
+  <text x="28" y="30" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">肇</text>
+  <text x="48" y="31" class="text" font-weight="600">肇新合同管理系统</text>
+  <text x="1100" y="31" class="muted">管理员</text>
+  <circle cx="1156" cy="26" r="13" fill="#e4e7ed"/>
+  <text x="1156" y="31" text-anchor="middle" class="muted">A</text>
+
+  <rect x="0" y="52" width="190" height="668" fill="#304156"/>
+  <text x="18" y="80" fill="#8797a6" font-size="11">合同基础配置</text>
+  <text x="22" y="112" class="sidebar-text">签约主体</text>
+  <text x="22" y="148" class="sidebar-text">合作方管理</text>
+  <rect x="8" y="160" width="174" height="30" rx="4" fill="#263445"/>
+  <rect x="8" y="160" width="4" height="30" fill="#409eff"/>
+  <text x="22" y="180" class="sidebar-active">编号规则</text>
+  <text x="22" y="218" class="sidebar-text">合同类型</text>
+  <text x="22" y="254" class="sidebar-text">合同管理</text>
+  <text x="22" y="290" class="sidebar-text">模板管理</text>
+
+  <rect x="190" y="52" width="1010" height="668" fill="#f5f7fa"/>
+  <text x="214" y="82" class="muted">合同基础配置 / 编号规则</text>
+
+  <rect x="210" y="96" width="66" height="28" rx="4" fill="#409eff"/>
+  <text x="243" y="115" text-anchor="middle" class="btn-text">新增</text>
+  <rect x="286" y="96" width="66" height="28" rx="4" fill="#fff" stroke="#dcdfe6"/>
+  <text x="319" y="115" text-anchor="middle" class="btn-default-text">导出</text>
+
+  <!-- 规则列表 -->
+  <rect x="210" y="140" width="966" height="260" rx="6" class="card"/>
+  <rect x="210" y="140" width="966" height="38" rx="6" fill="#fafafa"/>
+  <line x1="210" y1="178" x2="1176" y2="178" stroke="#ebeef5"/>
+  <text x="226" y="164" class="th">编号名</text>
+  <text x="346" y="164" class="th">编码</text>
+  <text x="546" y="164" class="th">当前流水号</text>
+  <text x="646" y="164" class="th">位数</text>
+  <text x="706" y="164" class="th">规则设置（JSON 数组）</text>
+  <text x="1086" y="164" class="th">操作</text>
+
+  <text x="226" y="206" class="td">审批单编号</text>
+  <text x="346" y="206" class="td">APPROVE_ORDER_RULE</text>
+  <text x="546" y="206" class="td">4</text>
+  <text x="646" y="206" class="td">6</text>
+  <text x="706" y="206" class="td">SP- + 日期 + 流水号</text>
+  <text x="1086" y="206" class="td" fill="#409eff">修改</text>
+  <line x1="210" y1="222" x2="1176" y2="222" stroke="#ebeef5"/>
+
+  <text x="226" y="252" class="td">合同编号</text>
+  <text x="346" y="252" class="td">CODE_RULE</text>
+  <text x="546" y="252" class="td">0</text>
+  <text x="646" y="252" class="td">4</text>
+  <text x="706" y="252" class="td">主体 + 类型 + 部门 + 日期 + 流水号</text>
+  <text x="1086" y="252" class="td" fill="#409eff">修改</text>
+  <line x1="210" y1="268" x2="1176" y2="268" stroke="#ebeef5"/>
+
+  <text x="226" y="298" class="td">模板编号</text>
+  <text x="346" y="298" class="td">TEMPLATE_RULE</text>
+  <text x="546" y="298" class="td">1</text>
+  <text x="646" y="298" class="td">6</text>
+  <text x="706" y="298" class="td">TEM- + 日期 + 流水号</text>
+  <text x="1086" y="298" class="td" fill="#409eff">修改</text>
+  <line x1="210" y1="314" x2="1176" y2="314" stroke="#ebeef5"/>
+
+  <!-- 规则预览 -->
+  <rect x="210" y="420" width="966" height="150" rx="6" class="card"/>
+  <text x="226" y="446" class="text" font-weight="600">规则预览（以「审批单编号」为例）</text>
+
+  <rect x="226" y="462" width="66" height="30" rx="15" class="chip"/>
+  <text x="259" y="482" text-anchor="middle" class="chip-text">固定 "SP-"</text>
+  <text x="302" y="482" class="muted">+</text>
+  <rect x="316" y="462" width="110" height="30" rx="15" class="chip"/>
+  <text x="371" y="482" text-anchor="middle" class="chip-text">日期 yyyyMMdd</text>
+  <text x="436" y="482" class="muted">+</text>
+  <rect x="450" y="462" width="120" height="30" rx="15" class="chip"/>
+  <text x="510" y="482" text-anchor="middle" class="chip-text">流水号 6 位</text>
+  <text x="586" y="482" class="muted">→</text>
+  <text x="606" y="482" class="text" font-weight="600">SP-20261024-000005</text>
+
+  <text x="226" y="522" class="muted">规则存在 conf_bill_rule.RULE，是 JSON 数组；编号由 getNumber 逐段解释拼接。</text>
+  <text x="226" y="544" class="muted">预览时结果缓存到 Redis：BILLRULE_用户ID_编码_日期，24 小时；保存合同后调 useBillNumber 清缓存。</text>
+
+  <rect x="210" y="596" width="966" height="86" rx="6" fill="#fff" stroke="#e4e7ed"/>
+  <text x="226" y="618" class="text" font-weight="600">图例</text>
+  <text x="226" y="640" class="muted">规则是「数据」不是「代码」：加一种编号段类型，只改解释器，不改业务代码。</text>
+  <text x="226" y="662" class="muted">预览缓存 + REQUIRES_NEW = 宁跳号、不重号；synchronized 只在单 JVM 有效，集群要换 Redis 自增。</text>
+</svg>
