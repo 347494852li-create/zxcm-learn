@@ -420,15 +420,15 @@ export function listUser(query) {
 
 | 位置 | 干了什么 | 你要知道的 |
 |---|---|---|
-| `:21` | `baseURL = process.env.VUE_APP_BASE_API` | 所以请求实际发往 `/dev-api/xxx`，被 `vue.config.js` 的代理转发到 `localhost:8080/xxx` |
-| `:32-34` | **请求拦截器**：自动加 `token: Bearer <token>` | **每个请求都自动带 token**——这就是 [D1](../后端/D1-SaToken鉴权链路.md) 里「token 从 Cookie 取出加到请求头」那一步 |
-| `:80-97` | **响应拦截器**：`code === 401` → 弹「登录状态已过期」→ 登出 | 会话过期时的那个弹窗在这 |
-| `:98-111` | `code === 500` 弹红条错误；`code !== 200` 弹通知 | 统一错误处理，页面里不用每处都写 try/catch |
+| `:61` | `baseURL = process.env.VUE_APP_BASE_API` | 所以请求实际发往 `/dev-api/xxx`，被 `vue.config.js` 的代理转发到 `localhost:8080/xxx` |
+| `:92-94` | **请求拦截器**：自动加 `token: Bearer <token>` | **每个请求都自动带 token**——这就是 [D1](../后端/D1-SaToken鉴权链路.md) 里「token 从 Cookie 取出加到请求头」那一步 |
+| `:200-227` | **响应拦截器**：`code === 401` → 弹「登录状态已过期」→ 登出 | 会话过期时的那个弹窗在这 |
+| `:229-241` | `code === 500` 弹红条错误；`code !== 200` 弹通知 | 统一错误处理，页面里不用每处都写 try/catch |
 
 还有两个小机制：
 
-- `:29` / `:42-64`：**防重复提交**。1 秒内相同 URL + 相同参数视为重复，直接 reject（`headers.repeatSubmit === false` 可关掉）
-- `:36-41`：GET 请求的参数会被拼成 query string
+- `:85-87` / `:118-166`：**防重复提交**。1 秒内相同 URL + 相同参数视为重复，直接 reject（`headers.repeatSubmit === false` 可关掉）
+- `:105-115`：GET 请求的参数会被拼成 query string
 
 > **调试技巧**：页面上某个请求没带 token 或报 401，先看这个文件，不用去翻具体页面。
 
@@ -641,7 +641,7 @@ SELECT MENU_NAME, PATH, COMPONENT FROM sys_menu WHERE MENU_NAME = '用户管理'
 |---|---|
 | 请求 URL 不对（少了/多了前缀）| `vue.config.js` 的 proxy + `.env.development` 的 `VUE_APP_BASE_API` |
 | 请求**转圈不返回** / `ERR_EMPTY_RESPONSE`，npm 终端刷 `ECONNREFUSED` | **后端没起**（代理转不过去）。**这不是 404**，详见 §12 第 4 条 |
-| 没带 token | `utils/request.js:32-34` |
+| 没带 token | `utils/request.js:92-94` |
 | 401 弹重登 | 正常行为，token 过期了 → 重新登录 |
 | 404 | 后端 Controller 没有这个路径（**M0 阶段业务接口全是 404，属预期**）|
 
@@ -687,7 +687,7 @@ npm run build:prod   # 生产打包 → 产物在 dist/
 |---|---|
 | 请求其实发给了谁 | **前端开发服务器**（一个跑在你机器上的 Node 进程），不是后端 |
 | 为什么要绕这一层 | 页面在 `:80`、后端在 `:8080`，**端口不同 = 不同源**，JS 直连会被同源策略拦下 |
-| `/dev-api` 前缀从哪来 | `utils/request.js:21` 里 `baseURL = process.env.VUE_APP_BASE_API`，值在 `.env.development` |
+| `/dev-api` 前缀从哪来 | `utils/request.js:61` 里 `baseURL = process.env.VUE_APP_BASE_API`，值在 `.env.development` |
 | 谁来转 | `vue.config.js:31-46` 的 `devServer.proxy`：命中 `/dev-api` → `target` 换成 `localhost:8080` |
 | 为什么要删前缀 | `pathRewrite` 把 `/dev-api` 删掉 —— **后端根本没有这个路径**，它只是前端打的「转发标记」 |
 | 后端最终收到 | `http://localhost:8080/xxx`，命中对应 Controller 的 `@RequestMapping` |
@@ -709,7 +709,7 @@ npm run build:prod   # 生产打包 → 产物在 dist/
 | 3 | 浏览器 `http://localhost` 打不开 | 80 是默认端口，URL **不用写端口** | 直接开 `http://localhost` |
 | 4 | 页面能开，但**接口全卡住不返回**（转圈 / `net::ERR_EMPTY_RESPONSE`），npm 终端刷 `[HPM] Error occurred while trying to proxy ... (ECONNREFUSED)` | **后端没起**，代理转不过去（`vue.config.js:35-42`）| 先起后端：`curl localhost:8080/captchaImage` 应返回 200。（**注意不是 404** —— 404 是「后端起了但没这个接口」）|
 | 5 | 登录成功，但**首页白屏 / 左侧菜单是空的** | `getRouters` 返回的菜单里 `component` 值和 `src/views/` 下真实路径对不上，`loadView()` 找不到文件 → 路由注不进去 | 对照 `sys_menu.COMPONENT` ↔ `src/views/` 目录名（**大小写敏感**）|
-| 6 | 用一会儿突然弹「登录状态已过期」被踢回登录页 | `utils/request.js:80` 收到 `code===401` 就弹框 + `LogOut`。常见诱因：**虚拟机 Redis 重启 / db5 被清**，token 丢了 | 重新登录即可；根因在后端会话（见 [D1](../后端/D1-SaToken鉴权链路.md)）|
+| 6 | 用一会儿突然弹「登录状态已过期」被踢回登录页 | `utils/request.js:200` 收到 `code===401` 就弹框 + `LogOut`。常见诱因：**虚拟机 Redis 重启 / db5 被清**，token 丢了 | 重新登录即可；根因在后端会话（见 [D1](../后端/D1-SaToken鉴权链路.md)）|
 | 7 | 菜单里点「合同管理」之类进去 404 | **正常**：菜单是数据库里的数据，对应的 `.vue` / Controller 还没做 | 做完对应模块就好；**别当 bug 修** |
 | 8 | 改了 `sys_menu`（加页面 / 换权限），前端**不生效** | 菜单和权限是**登录时查一次、之后一直用缓存** | **退出重新登录** |
 | 9 | 想写 Vue 3 的语法（`<script setup>`、`ref()`）怎么都不对 | 本工程是 **Vue 2.6.12**，不是 Vue 3 | 用 Vue 2 的选项式写法（`data()` / `methods`）|
