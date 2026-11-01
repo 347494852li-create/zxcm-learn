@@ -683,14 +683,25 @@ npm run build:prod   # 生产打包 → 产物在 dist/
 
 浏览器里那条 `http://localhost/dev-api/xxx` —— **host 是前端自己（80），不是后端**。
 
+以 `GET /conf/signingSubject/list` 为例，**每一步的完整 URL**：
+
+| 步骤 | 发生在哪 | URL |
+|---|---|---|
+| ① `api` 函数里写的 | `api/conf/signingSubject.js` | `/conf/signingSubject/list` |
+| ② axios 拼上 `baseURL`（`/dev-api`） | 浏览器内 `request.js:21` | `/dev-api/conf/signingSubject/list` |
+| ③ 浏览器补全 host 发出去 | 浏览器 → 前端 dev server | `http://localhost/dev-api/conf/signingSubject/list` |
+| ④ 代理匹配 `/dev-api`，换 `target` | dev server | `http://localhost:8080/dev-api/conf/signingSubject/list` |
+| ⑤ `pathRewrite` 删掉 `/dev-api` | dev server | `http://localhost:8080/conf/signingSubject/list` |
+| ⑥ 后端 Controller 收到 | Tomcat `:8080` | `http://localhost:8080/conf/signingSubject/list` |
+
 | 关键点 | 值 / 位置 |
 |---|---|
 | 请求其实发给了谁 | **前端开发服务器**（一个跑在你机器上的 Node 进程），不是后端 |
 | 为什么要绕这一层 | 页面在 `:80`、后端在 `:8080`，**端口不同 = 不同源**，JS 直连会被同源策略拦下 |
 | `/dev-api` 前缀从哪来 | `utils/request.js:21` 里 `baseURL = process.env.VUE_APP_BASE_API`，值在 `.env.development` |
-| 谁来转 | `vue.config.js:31-46` 的 `devServer.proxy`：命中 `/dev-api` → `target` 换成 `localhost:8080` |
-| 为什么要删前缀 | `pathRewrite` 把 `/dev-api` 删掉 —— **后端根本没有这个路径**，它只是前端打的「转发标记」 |
-| 后端最终收到 | `http://localhost:8080/xxx`，命中对应 Controller 的 `@RequestMapping` |
+| 谁来转 | `vue.config.js:35-43` 的 `devServer.proxy`：命中 `/dev-api` → `target` 换成 `http://localhost:8080` → URL 变成 `http://localhost:8080/dev-api/conf/signingSubject/list` |
+| 为什么要删前缀 | `pathRewrite` 把 `/dev-api` 删掉 → URL 变成 `http://localhost:8080/conf/signingSubject/list`。**后端根本没有 `/dev-api` 这个路径**，它只是前端打的「转发标记」 |
+| 后端最终收到 | `http://localhost:8080/conf/signingSubject/list`，命中对应 Controller 的 `@RequestMapping` |
 
 > 💡 点开 Network 里那条请求，**Request URL 是 `http://localhost/dev-api/login`**：host 是前端、path 里带 `/dev-api`。**后端 8080 从头到尾没在浏览器里出现过。**
 >
