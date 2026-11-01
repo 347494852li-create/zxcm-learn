@@ -580,7 +580,7 @@ layout/
 
 ---
 
-## 8. `views/`：18 个一级目录，和菜单一一对应
+## 8. `views/`：18 个一级条目（13 个目录 + 5 个页面文件）
 
 `src/views/` 下的一级目录 = 菜单的一级目录（或功能分组）：
 
@@ -601,6 +601,8 @@ layout/
 
 > ➡️ 这张表就是**前后端的接缝**：左边是前端页面目录，右边是「后端把这个模块造出来」的那篇施工单。
 > 你看到一个页面，先在这查到它属于哪个模块，再去做（或去读）对应那篇 —— 前端不再是孤立的黑盒。
+
+> 📌 根目录下还有 5 个**页面文件**（不是目录）：`index.vue`（首页）、`newIndex.vue`、`login.vue`（登录）、`register.vue`（注册）、`redirect.vue`（路由刷新中转）。它们和目录一起，组成了 `views/` 下的 18 个一级条目。
 
 每个叶子目录里通常就一个 `index.vue`：
 
@@ -755,6 +757,26 @@ Java 后端岗一般**不深挖前端**，但会问「前后端怎么协作」�
 （四条链的**逐行走读**见 [E3 · 前端代码走读](E3-前端代码走读.md)；把其中一条**每跳贴代码**的完整版见 [E4 · 一次点击的完整旅程](E4-一次点击的完整旅程.md)。）
 
 ---
+
+## 本章答辩卡（追问级）
+
+**卡 1：新增一个菜单页面，为什么前端一行代码都不用改？**
+
+**10 秒答案**：菜单不是写死在前端路由里的。登录后 `permission.js` 调 `GetInfo` / `GenerateRoutes`，后端 `getRouters` 从 `sys_menu` 返回菜单树；前端 `filterAsyncRouter` 把每个 `component` 字符串交给 `loadView` 动态 `import` 成路由，再 `addRoutes`。所以只要数据库插一条菜单、给角色授权，页面就能出现。
+
+**证据**：`zxcm-ui/src/permission.js:43-52`、`zxcm-ui/src/store/modules/permission.js`（`filterAsyncRouter` 56 行 / `loadView` 124 行）、`zxcm-ui/src/router/index.js:32-132`。
+
+**卡 2：前端用 `v-hasPermi` 把按钮藏了，后端还需要校验吗？**
+
+**10 秒答案**：必须要。`v-hasPermi` 只是把按钮从 DOM 里删掉，是体验优化，不是安全边界；用户完全可以绕过页面直接调接口。每个写接口仍然必须有 `@SaCheckPermission`。
+
+**证据**：`zxcm-ui/src/directive/permission/hasPermi.js:9-28`、后端 `@SaCheckPermission` 遍布 Controller（如 `TSigningSubjectController.java`）。
+
+**卡 3：浏览器为什么不会直接请求 8080？**
+
+**10 秒答案**：开发时前端在 80、后端在 8080，端口不同就是不同源，浏览器会按同源策略拦。前端只请求自己的 `/dev-api`，由 webpack-dev-server 按 `vue.config.js` 的 proxy 规则去掉前缀再转发到 8080，所以浏览器全程以为在访问同一个源。
+
+**证据**：`zxcm-ui/vue.config.js:35-43`、`zxcm-ui/src/utils/request.js:19-24`。
 
 ## 📎 相关文档
 
